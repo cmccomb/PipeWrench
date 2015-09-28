@@ -34,7 +34,7 @@ system.L = [10, 10, 10, 10, 10, 10, 10, 10, 10];            % Element lengths, [
 system.D = [5, 5, 5, 5, 5, 5, 5, 5, 5]/100;                 % Element diameters, [m]
 system.A = [1 2; 2 3; 2 4; 3 6; 4 5; 5 6; 4 7; 5 8; 6 9];   % Nodal adjacency list
 
-[h, q] = fluid_network(system);
+[h, q] = pipe_network(system);
 
 %% Verify the results 
 assert(h(2) + h(4) - h(6) - h(5) - h(3) <= 2*eps);          % Check energy conservation around the loop
