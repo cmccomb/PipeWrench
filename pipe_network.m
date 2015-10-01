@@ -8,11 +8,11 @@ function [h, q] = pipe_network(sys)
     L = sys.L;                                             % Element lengths, [m]
     D = sys.D;                                             % Element diameters, [m]
     A = sys.A;                                             % Nodal adjacency list
-    NE = length(D);                						   % Number of elements
+    NE = length(D);                                        % Number of elements
     NN = max(A(:));                                        % Number of nodes
 
     %% Initialize things to be used later
-    R = zeros(1,NE);             					       % Element resistances
+    R = zeros(1,NE);                                       % Element resistances
     K = zeros(NN, NN);                                     % Global stiffness matrix
     h = zeros(1,NE);                                       % Elemental hes
     q = zeros(1,NE);                                       % Flow rate in different elements
