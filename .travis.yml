@@ -8,5 +8,5 @@ before_script:
   - sudo apt-get install octave
 
 script: 
-  - octave test_pipe_network.m
+  - octave test_network.m
 
