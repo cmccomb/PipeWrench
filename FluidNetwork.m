@@ -3,8 +3,8 @@ classdef FluidNetwork < handle
         dynamic_viscosity = NaN;
         junction_list = Junction();
         pipe_list = Pipe(); 
-        junction_names = containers.Map;
-        pipe_names = containers.Map;
+        junction_names = {};
+        pipe_names = {};
         nj = 0;
         np = 0;
         global_stiffness = [];
@@ -19,7 +19,7 @@ classdef FluidNetwork < handle
             this.nj = this.nj + 1;
             this.junction_list(this.nj) = Junction(x, y);
             this.junction_list(this.nj).id = this.nj;
-            this.junction_names(name) = this.nj;
+            this.junction_names{this.nj} = name;
             if nargin > 4
                 for i=1:2:length(varargin)
                     if strcmp(varargin{i}, 'pressure')
@@ -31,11 +31,11 @@ classdef FluidNetwork < handle
         
         function add_pipe(this, name, init_name, term_name, varargin)
             this.np = this.np + 1;
-            initial = this.junction_list(this.junction_names(init_name));
-            terminal = this.junction_list(this.junction_names(term_name));
+            initial = this.junction_list(strcmp(this.junction_names, init_name));
+            terminal = this.junction_list(strcmp(this.junction_names, term_name));
             this.pipe_list(this.np) = Pipe(initial, terminal);
             this.pipe_list(this.np).dynamic_viscosity = this.dynamic_viscosity;
-            this.pipe_names(name) = this.np;
+            this.pipe_names{this.np} = name;
             if nargin > 4
                 for i=1:2:length(varargin)
                     if strcmp(varargin{i}, 'diameter')
@@ -82,11 +82,11 @@ classdef FluidNetwork < handle
             
         end
         
-        function info = gget(this, name, variable)
+        function info = get(this, name, variable)
             try
-                info = this.pipe_list(this.pipe_names(name)).(variable);
+                info = this.pipe_list(strcmp(this.pipe_names, name)).(variable);
             catch
-                info = this.junction_list(this.junction_names(name)).(variable);
+                info = this.junction_list(strcmp(this.junction_names, name)).(variable);
             end
         end
         
