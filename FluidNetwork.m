@@ -39,7 +39,7 @@ classdef FluidNetwork < handle
             if nargin > 4
                 for i=1:2:length(varargin)
                     if strcmp(varargin{i}, 'diameter')
-                        this.pipe_list(end).set_diameter(varargin{i+1});
+                        this.pipe_list(end).set_var('diameter', varargin{i+1});
                     end
                 end
             end
