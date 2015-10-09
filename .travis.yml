@@ -2,6 +2,8 @@ language: cpp
 
 compiler: g++
 
+sudo: false
+
 before_script:
   - sudo apt-add-repository ppa:octave/stable -y
   - sudo apt-get update
