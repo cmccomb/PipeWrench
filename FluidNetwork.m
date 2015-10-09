@@ -73,7 +73,7 @@ classdef FluidNetwork < handle
             % Solve the matrix and distribute node and elemental information
             temp = (this.global_stiffness\temp)';
             for i=1:1:this.nj
-                this.junction_list(i).pressure = temp(i);
+                this.junction_list(i).set_pressure(temp(i));
             end
 
             for i=1:1:this.np
