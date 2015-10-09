@@ -22,6 +22,10 @@ classdef Pipe < handle
             this.diameter = d;
         end
 
+        function set_dv(this, dv)
+            this.dynamic_viscosity= dv;
+        end
+
         function update(this)
             % Update the length
             temp1 = [this.initial.x  this.initial.y];

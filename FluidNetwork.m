@@ -34,7 +34,7 @@ classdef FluidNetwork < handle
             initial = this.junction_list(strcmp(this.junction_names, init_name));
             terminal = this.junction_list(strcmp(this.junction_names, term_name));
             this.pipe_list(this.np) = Pipe(initial, terminal);
-            this.pipe_list(this.np).dynamic_viscosity = this.dynamic_viscosity;
+            this.pipe_list(this.np).set_dv(this.dynamic_viscosity);
             this.pipe_names{this.np} = name;
             if nargin > 4
                 for i=1:2:length(varargin)
