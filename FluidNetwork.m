@@ -18,12 +18,12 @@ classdef FluidNetwork < handle
         function add_junction(this, name, x, y, varargin)
             this.nj = this.nj + 1;
             this.junction_list(this.nj) = Junction(x, y);
-            this.junction_list(this.nj).set_var('id', this.nj);
+            this.junction_list(this.nj).set('id', this.nj);
             this.junction_names{this.nj} = name;
             if nargin > 4
                 for i=1:2:length(varargin)
                     if strcmp(varargin{i}, 'pressure')
-                        this.junction_list(this.nj).set_var('pressure', varargin{i+1});
+                        this.junction_list(this.nj).set('pressure', varargin{i+1});
                     end
                 end
             end
@@ -34,12 +34,12 @@ classdef FluidNetwork < handle
             initial = this.junction_list(strcmp(this.junction_names, init_name));
             terminal = this.junction_list(strcmp(this.junction_names, term_name));
             this.pipe_list(this.np) = Pipe(initial, terminal);
-            this.pipe_list(this.np).set_var('dynamic_viscosity', this.dynamic_viscosity);
+            this.pipe_list(this.np).set('dynamic_viscosity', this.dynamic_viscosity);
             this.pipe_names{this.np} = name;
             if nargin > 4
                 for i=1:2:length(varargin)
                     if strcmp(varargin{i}, 'diameter')
-                        this.pipe_list(end).set_var('diameter', varargin{i+1});
+                        this.pipe_list(end).set('diameter', varargin{i+1});
                     end
                 end
             end
@@ -73,7 +73,7 @@ classdef FluidNetwork < handle
             % Solve the matrix and distribute node and elemental information
             temp = (this.global_stiffness\temp)';
             for i=1:1:this.nj
-                this.junction_list(i).set_var('pressure', temp(i));
+                this.junction_list(i).set('pressure', temp(i));
             end
 
             for i=1:1:this.np

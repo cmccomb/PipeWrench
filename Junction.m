@@ -14,8 +14,12 @@ classdef Junction < handle
             end
         end
 
-        function set_var(this, name, val)
+        function set(this, name, val)
             this.(name) = val;
+        end
+
+        function val = get(this, name)
+            val = this.(name)
         end
     end
 end
