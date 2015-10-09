@@ -18,12 +18,8 @@ classdef Pipe < handle
             end
         end
 
-        function set_diameter(this, d)
-            this.diameter = d;
-        end
-
-        function set_dv(this, dv)
-            this.dynamic_viscosity= dv;
+        function set_var(this, name, val)
+            this.(name) = val;
         end
 
         function update(this)
@@ -38,9 +34,9 @@ classdef Pipe < handle
         end
 
         function compute_flowrate(this)
-            a = this.initial.pressure
-            b = this.terminal.pressure
-            this.flow_rate = (a - b)*this.resistance;
+            p_init = this.initial.pressure;
+            p_term = this.terminal.pressure;
+            this.flow_rate = (p_init - p_term)*this.resistance;
         end
 
     end

@@ -14,12 +14,8 @@ classdef Junction < handle
             end
         end
 
-        function set_pressure(this, p)
-            this.pressure = p;
-        end
-
-        function set_id(this, id)
-            this.id = id;
+        function set_var(this, name, val)
+            this.(name) = val;
         end
     end
 end
