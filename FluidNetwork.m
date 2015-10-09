@@ -18,7 +18,7 @@ classdef FluidNetwork < handle
         function add_junction(this, name, x, y, varargin)
             this.nj = this.nj + 1;
             this.junction_list(this.nj) = Junction(x, y);
-            this.junction_list(this.nj).id = this.nj;
+            % this.junction_list(this.nj).id = this.nj;
             this.junction_names{this.nj} = name;
             if nargin > 4
                 for i=1:2:length(varargin)
