@@ -38,6 +38,9 @@ classdef Pipe < handle
         end
 
         function compute_flowrate(this)
+            this.initial.pressure
+            this.initial.pressure(1)
+            this.terminal.pressure
             this.flow_rate = (this.initial.pressure - this.terminal.pressure)*this.resistance;
         end
 
