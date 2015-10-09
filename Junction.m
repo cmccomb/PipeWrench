@@ -13,6 +13,13 @@ classdef Junction < handle
                 this.y = varargin{2};
             end
         end
-        
+
+        function set_pressure(this, p)
+            this.pressure = p;
+        end
+
+        function set_id(this, id)
+            this.id = id;
+        end
     end
 end

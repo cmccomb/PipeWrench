@@ -18,6 +18,10 @@ classdef Pipe < handle
             end
         end
 
+        function set_diameter(this, d)
+            this.diameter = d;
+        end
+
         function update(this)
             % Update the length
             temp1 = [this.initial.x  this.initial.y];

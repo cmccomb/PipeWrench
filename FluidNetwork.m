@@ -18,12 +18,12 @@ classdef FluidNetwork < handle
         function add_junction(this, name, x, y, varargin)
             this.nj = this.nj + 1;
             this.junction_list(this.nj) = Junction(x, y);
-            % this.junction_list(this.nj).id = this.nj;
+            this.junction_list(this.nj).set_id(this.nj);
             this.junction_names{this.nj} = name;
             if nargin > 4
                 for i=1:2:length(varargin)
                     if strcmp(varargin{i}, 'pressure')
-                        this.junction_list(this.nj).pressure = varargin{i+1};
+                        this.junction_list(this.nj).set_pressure(varargin{i+1});
                     end
                 end
             end
@@ -39,7 +39,7 @@ classdef FluidNetwork < handle
             if nargin > 4
                 for i=1:2:length(varargin)
                     if strcmp(varargin{i}, 'diameter')
-                        this.pipe_list(end).diameter = varargin{i+1};
+                        this.pipe_list(end).set_diameter(varargin{i+1});
                     end
                 end
             end
