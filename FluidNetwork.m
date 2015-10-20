@@ -91,14 +91,18 @@ classdef FluidNetwork < handle
         end
         
         function plot_network(this)  
-            hold on;
+            x = [];
+            y = [];
+            p = [];
             for i=1:1:length(this.pipe_list)
-                p1 = [this.pipe_list(i).initial.x this.pipe_list(i).terminal.x];
-                p2 = [this.pipe_list(i).initial.y this.pipe_list(i).terminal.y];
-                plot(p1, p2, 'ks-', 'linewidth', 3, 'markersize', 15);
+                x = [x this.pipe_list(i).initial.x this.pipe_list(i).terminal.x NaN];
+                y = [y this.pipe_list(i).initial.y this.pipe_list(i).terminal.y NaN];
+                p = [p this.pipe_list(i).initial.pressure this.pipe_list(i).terminal.pressure NaN]; 
             end
-            axis square;
-            hold off;
+            surface([x; x], [y; y], zeros(size([x; x])), [p; p], 'facecol', 'no', 'edgecol', 'interp', 'linew', 4);
+            axis square; axis equal;
+            grid on; box on;
+            colorbar();
         end
         
         function plot_pressure(this)  
