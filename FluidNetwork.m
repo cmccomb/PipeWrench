@@ -100,9 +100,10 @@ classdef FluidNetwork < handle
                 p = [p this.pipe_list(i).initial.pressure this.pipe_list(i).terminal.pressure NaN]; 
             end
             surface([x; x], [y; y], zeros(size([x; x])), [p; p], 'facecol', 'no', 'edgecol', 'interp', 'linew', 4);
+            h = colorbar();
+            ylabel(h, 'Pressure [Pa]');
             axis square; axis equal;
             grid on; box on;
-            colorbar();
         end
         
         function plot_pressure(this)  
