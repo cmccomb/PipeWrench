@@ -11,7 +11,6 @@ PIX_SS = PIX_SS - [0 -41 0 62];
 f = 0;
 efj = 0;
 efp = 0;
-efg = 0;
 ha = 0;
 button_width = 100;
 button_height = 25;
@@ -274,7 +273,7 @@ start_up;
                 draw_network();
             end
         elseif get(h_edit, 'Value') == 1
-            global_edit_box();
+            
         elseif get(h_delete, 'Value') == 1
         end
 
@@ -412,12 +411,12 @@ start_up;
 
 
     function global_edit_box()
-        efg = figure('Visible', 'off');
-        pos = get(efg, 'Position');
-        set(efg, 'Position', [pos(1) pos(2) button_width*2 + button_padding*3 button_height*4 + button_padding*5]);
-        set(efg, 'Numbertitle', 'off');
-        set(efg, 'MenuBar', 'none');
-        set(efg,'Name', 'Global');
+        efp = figure('Visible', 'off');
+        pos = get(efp, 'Position');
+        set(efp, 'Position', [pos(1) pos(2) button_width*2 + button_padding*3 button_height*4 + button_padding*5]);
+        set(efp, 'Numbertitle', 'off');
+        set(efp, 'MenuBar', 'none');
+        set(efp,'Name', 'Pipe');
         uicontrol('Style', 'pushbutton', ...
                   'String', 'Save', ...
                   'Position', [button_padding button_padding button_width button_height], ...
@@ -433,19 +432,15 @@ start_up;
                   'enable', 'off', ...
                   'Position', [button_padding 2*button_padding+button_height button_width button_height]);
         h_dv = uicontrol('Style', 'edit', ...
-                         'String', num2str(net.dynamic_viscosity), ...
+                         'String', num2str(net.get(name, 'diameter')), ...
                          'Position',[2*button_padding + button_width 2*button_padding+button_height button_width button_height]);
         
         uicontrol('Style', 'edit', ...
                   'String', 'Length of pipe (m)', ...
                   'enable', 'off', ...
                   'Position', [button_padding 3*button_padding+2*button_height button_width button_height]);
-        L = 0;
-        for i=1:1:net.np
-            L = L + net.pipe_list(i).length;
-        end
         h_lp = uicontrol('Style', 'edit', ...
-                         'String', num2str(L), ...
+                         'String', num2str(abs(net.get(name, 'flow_rate'))), ...
                          'enable', 'off', ...
                          'Position',[2*button_padding + button_width 3*button_padding+2*button_height button_width button_height]);
                      
@@ -454,11 +449,11 @@ start_up;
                   'enable', 'off', ...
                   'Position', [button_padding 4*button_padding+3*button_height button_width button_height]);
         h_cn = uicontrol('Style', 'edit', ...
-                         'String', rcond(net.global_stiffness), ...
+                         'String', rcond(net.global_, ...
                          'enable', 'off', ...
                          'Position',[2*button_padding + button_width 4*button_padding+3*button_height button_width button_height]);
                      
-        set(efg, 'Visible', 'on');
+        set(efp, 'Visible', 'on');
     end
 
     function progress_flash(s)
@@ -517,11 +512,7 @@ start_up;
         try
             close(efp);
         catch
-            try
-                close(efj);
-            catch 
-                close(efg);
-            end
+            close(efj);
         end
     end
 
