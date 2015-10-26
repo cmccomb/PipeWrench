@@ -81,10 +81,11 @@ classdef FluidNetwork < handle
             to_delete = {};
             idx = this.get(name, 'junction_index');
             for i=1:1:this.np
-                if this.pipe_list(i).initial.junction_index == idx
+                temp = this.pipe_list(i);
+                if temp.initial.junction_index == idx
                     to_delete(end+1) = this.pipe_names(this.pipe_list(i).pipe_index);
                 end
-                if this.pipe_list(i).terminal.junction_index == idx
+                if temp.terminal.junction_index == idx
                     to_delete(end+1) = this.pipe_names(this.pipe_list(i).pipe_index);
                 end
             end
