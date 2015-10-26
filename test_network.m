@@ -24,7 +24,7 @@ net.add_pipe('G', '4', '7', 'diameter', 0.05);
 net.add_pipe('H', '5', '8', 'diameter', 0.05);
 net.add_pipe('I', '6', '9', 'diameter', 0.05);
 net.add_pipe('J', '1', '9', 'diameter', 0.05);
-net.delete_pipe('J');
+% net.delete_pipe('J');
 
 % Solve it
 net.solve();

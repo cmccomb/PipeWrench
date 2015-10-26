@@ -99,33 +99,5 @@ classdef FluidNetwork < handle
                 info = this.junction_list(strcmp(this.junction_names, name)).(variable);
             end
         end
-        
-        function plot_network(this)  
-            x = [];
-            y = [];
-            p = [];
-            for i=1:1:length(this.pipe_list)
-                x = [x this.pipe_list(i).initial.x this.pipe_list(i).terminal.x NaN];
-                y = [y this.pipe_list(i).initial.y this.pipe_list(i).terminal.y NaN];
-                p = [p this.pipe_list(i).initial.pressure this.pipe_list(i).terminal.pressure NaN]; 
-            end
-            surface([x; x], [y; y], zeros(size([x; x])), [p; p], 'facecol', 'no', 'edgecol', 'interp', 'linew', 4);
-            h = colorbar();
-            ylabel(h, 'Pressure [Pa]');
-            axis square; axis equal;
-            grid on; box on;
-        end
-        
-        function plot_pressure(this)  
-            for i=1:1:length(this.pipe_list)
-                p1 = [this.pipe_list(i).initial.x this.pipe_list(i).terminal.x];
-                p2 = [this.pipe_list(i).initial.y this.pipe_list(i).terminal.y];
-                p3 = [this.pipe_list(i).initial.pressure this.pipe_list(i).terminal.pressure];
-                plot3(p1, p2, p3, 'k');  
-                hold on;
-            end
-            axis square;
-            hold off;
-        end
     end
 end
