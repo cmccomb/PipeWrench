@@ -12,6 +12,7 @@ net.add_junction('6', 20, 20);
 net.add_junction('7',  0, 30, 'pressure', 0);
 net.add_junction('8', 10, 30, 'pressure', 0);
 net.add_junction('9', 20, 30, 'pressure', 0);
+net.add_junction('10', 2, 2);
 
 % Add pipes to connect the junctions
 net.add_pipe('A', '1', '2', 'diameter', 0.1);
@@ -24,7 +25,12 @@ net.add_pipe('G', '4', '7', 'diameter', 0.05);
 net.add_pipe('H', '5', '8', 'diameter', 0.05);
 net.add_pipe('I', '6', '9', 'diameter', 0.05);
 net.add_pipe('J', '1', '9', 'diameter', 0.05);
-% net.delete_pipe('J');
+net.add_pipe('K', '10', '9', 'diameter', 0.05);
+
+% Test deletions
+net.delete_pipe('J');
+net.delete_junction('10');
+
 
 % Solve it
 net.solve();

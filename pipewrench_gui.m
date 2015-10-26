@@ -242,6 +242,12 @@ start_up;
         elseif get(h_edit, 'Value') == 1
             junction_edit_box(get(hObject, 'userdata'));
         elseif get(h_delete, 'Value') == 1
+            net.delete_junction(get(hObject, 'userdata'));
+
+            solve();
+            
+            draw_network();
+            
         end
     end
 
@@ -252,7 +258,7 @@ start_up;
             net.add_junction(num2str(junction_counter), xy(1,1), xy(1, 2));
             draw_network();
         else
-            id = net.get(first_junction, 'id');
+            id = net.get(first_junction, 'junction_index');
             first_junction = -1;
             net.junction_list(id).x = xy(1, 1);
             net.junction_list(id).y = xy(1, 2);
@@ -400,7 +406,7 @@ start_up;
 
     function save_junction_info(~, ~)
         name = get(h_idj, 'String');
-        idx = net.get(name, 'id');
+        idx = net.get(name, 'junction_index');
 
         net.junction_list(idx).set('x', str2double(get(h_px, 'String')));
         net.junction_list(idx).set('y', str2double(get(h_py, 'String')));
@@ -419,7 +425,7 @@ start_up;
 
     function save_pipe_info(~, ~)
         name = get(h_idp, 'String');
-        idx = net.get(name, 'pipe_id');
+        idx = net.get(name, 'pipe_index');
 
         net.pipe_list(idx).set('diameter', str2double(get(h_dm, 'String')));
 

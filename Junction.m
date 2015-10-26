@@ -4,7 +4,7 @@ classdef Junction < handle
         fixed = false;
         x = NaN;
         y = NaN;
-        id = NaN;
+        junction_index = NaN;
     end
 
     methods
