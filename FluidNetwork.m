@@ -49,7 +49,16 @@ classdef FluidNetwork < handle
         
         function delete_pipe(this, name)
             idx = this.get(name, 'pipe_index');
-            this.pipe_list(idx) = [];
+            temp = Pipe();
+            counter = 1;
+            for i=1:1:(this.np)
+                if i ~= idx
+                    temp(counter) = this.pipe_list(i);
+                    counter = counter+1;
+                end
+            end
+            this.pipe_list = temp;
+%             this.pipe_list(idx) = [];
             this.pipe_names(idx) = [];
             this.np = this.np - 1;
             this.compact_names();
