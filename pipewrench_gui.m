@@ -65,7 +65,7 @@ start_up;
                          'ProgressBar', 'on', ...
                          'ProgressPosition', 15, ...
                          'ProgressRatio', 0.0);
-        s.addText(30, 50, 'PipeWrench', 'FontSize', 30, 'Color', 'k');
+        s.addText(30, 50, 'PipeWrench', 'FontSize', 30, 'Color', 'b');
            
         
         % Make an invisible figure
@@ -464,6 +464,7 @@ start_up;
     function progress_flash(s)
         load_count = load_count + 1;
         set(s, 'ProgressRatio', min(1, load_count/load_max));
+        pause(0.1);
     end
 
     function save_junction_info(~, ~)
