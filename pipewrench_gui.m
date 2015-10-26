@@ -40,8 +40,8 @@ h_idp = 0;
 h_dm = 0;
 h_fr = 0;
 
-pipe_counter = 9;
-junction_counter = 9;
+pipe_counter = 0;
+junction_counter = 0;
 first_junction = -1;
 first_junction_handle = -1;
 s = 0;
@@ -56,7 +56,7 @@ start_up;
 
     function start_up
         % Init the splashscreen
-        s = SplashScreen('PipeWrench', 'example.png', ...
+        s = SplashScreen('PipeWrench', 'splash.png', ...
                          'ProgressBar', 'on', ...
                          'ProgressPosition', 15, ...
                          'ProgressRatio', 0.0);
