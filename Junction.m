@@ -1,6 +1,7 @@
 classdef Junction < handle
     properties
         pressure = Inf;
+        fixed = false;
         x = NaN;
         y = NaN;
         id = NaN;
@@ -19,7 +20,7 @@ classdef Junction < handle
         end
 
         function val = get(this, name)
-            val = this.(name)
+            val = this.(name);
         end
     end
 end

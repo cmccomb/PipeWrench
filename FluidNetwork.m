@@ -24,6 +24,7 @@ classdef FluidNetwork < handle
                 for i=1:2:length(varargin)
                     if strcmp(varargin{i}, 'pressure')
                         this.junction_list(this.nj).set('pressure', varargin{i+1});
+                        this.junction_list(this.nj).set('fixed', true);
                     end
                 end
             end
@@ -34,6 +35,7 @@ classdef FluidNetwork < handle
             initial = this.junction_list(strcmp(this.junction_names, init_name));
             terminal = this.junction_list(strcmp(this.junction_names, term_name));
             this.pipe_list(this.np) = Pipe(initial, terminal);
+            this.pipe_list(this.np).set('pipe_id', this.np);
             this.pipe_list(this.np).set('dynamic_viscosity', this.dynamic_viscosity);
             this.pipe_names{this.np} = name;
             if nargin > 4
@@ -44,6 +46,15 @@ classdef FluidNetwork < handle
                 end
             end
         end
+        
+        function delete_pipe(this, name)
+            idx = find(strcmp(this.pipe_names, name)==1);
+            this.pipe_list(idx) = [];
+            this.pipe_names(idx) = [];
+            this.np = this.np - 1;
+            this.pipe_list
+        end
+                    
         
         function solve(this)
             % Update values for all pipes
@@ -61,7 +72,7 @@ classdef FluidNetwork < handle
             % Apply boundary conditions
             temp = zeros(this.nj, 1);
             for i=1:1:this.nj
-                if ~isinf(this.junction_list(i).pressure)
+                if this.junction_list(i).fixed == true
                     this.global_stiffness(i, :) = zeros(1, this.nj);
                     this.global_stiffness(i, i) = 1;
                     temp(i) = this.junction_list(i).pressure;

@@ -1,5 +1,6 @@
 classdef Pipe < handle
     properties
+        pipe_id
         diameter = NaN;
         length = NaN;
         terminal = NaN;
@@ -23,7 +24,7 @@ classdef Pipe < handle
         end
 
         function val = get(this, name)
-            val = this.(name)
+            val = this.(name);
         end
 
         function update(this)
