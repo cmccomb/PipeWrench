@@ -1,6 +1,6 @@
 classdef Pipe < handle
     properties
-        pipe_id
+        pipe_id = NaN;
         diameter = NaN;
         length = NaN;
         terminal = NaN;

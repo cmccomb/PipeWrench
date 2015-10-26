@@ -52,7 +52,6 @@ classdef FluidNetwork < handle
             this.pipe_list(idx) = [];
             this.pipe_names(idx) = [];
             this.np = this.np - 1;
-            this.pipe_list
         end
                     
         
