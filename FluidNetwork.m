@@ -96,7 +96,15 @@ classdef FluidNetwork < handle
            
             % Finally, delete the junction
             idx = this.get(name, 'junction_index');
-            this.junction_list(idx) = [];
+            temp = Junction();
+            counter = 1;
+            for i=1:1:(this.nj)
+                if i ~= idx
+                    temp(counter) = this.junction_list(i);
+                    counter = counter+1;
+                end
+            end
+            this.junction_list = temp;
             this.junction_names(idx) = [];
             this.nj = this.nj - 1;
             

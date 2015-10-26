@@ -29,7 +29,7 @@ net.add_pipe('K', '10', '9', 'diameter', 0.05);
 
 % Test deletions
 net.delete_pipe('J');
-% net.delete_junction('10');
+net.delete_junction('10');
 
 
 % Solve it
