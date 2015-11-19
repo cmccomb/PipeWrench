@@ -158,5 +158,46 @@ classdef FluidNetwork < handle
                 info = this.junction_list(strcmp(this.junction_names, name)).(variable);
             end
         end
+        
+        % This function provides teh ability to save a function to create a
+        % network
+        function save(this, name)
+            % Open the file for writing
+            fileID = fopen([name '.m'],'w');
+            
+            % Initialize the network and set dynamic viscosity
+            fprintf(fileID, 'function net = %s()\n', name);
+            fprintf(fileID, '\t%%%% Initialize the network\n');
+            fprintf(fileID, '\tnet = FluidNetwork();\n');
+            fprintf(fileID, '\tnet.dynamic_viscosity = %f;\n\n', this.dynamic_viscosity);
+
+            % Add junctions to the network
+            fprintf(fileID, '\t%%%% Add junctions to the network\n');
+            for i=1:1:length(this.junction_names)
+                this_name = this.junction_names{i};
+                if this.get(this_name, 'fixed') == 1
+                    fprintf(fileID, '\tnet.add_junction(''%s'', %f, %f, ''pressure'', %f);\n', this_name, this.get(this_name, 'x'), this.get(this_name, 'y'), this.get(this_name, 'pressure'));                    
+                else
+                    fprintf(fileID, '\tnet.add_junction(''%s'', %f, %f);\n', this_name, this.get(this_name, 'x'), this.get(this_name, 'y'));
+                end
+            end
+            fprintf(fileID, '\n');
+            
+            % Add pipes
+            fprintf(fileID, '\t%%%% Add pipes to connect the junctions\n');
+            for i=1:1:length(this.pipe_names)
+                this_name = this.pipe_names{i};
+                init_junc = this.get(this_name, 'initial');
+                init_name = this.junction_names{init_junc.junction_index};
+                term_junc = this.get(this_name, 'terminal');
+                term_name = this.junction_names{term_junc.junction_index};
+                fprintf(fileID, '\tnet.add_pipe(''%s'', ''%s'', ''%s'', ''diameter'', %f);\n', this_name, init_name,  term_name,  this.get(this_name, 'diameter'));
+            end
+            fprintf(fileID, '\n');
+            
+            % Close the file
+            fprintf(fileID, 'end\n');
+            fclose(fileID);
+        end
     end
 end

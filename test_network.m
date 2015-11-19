@@ -31,6 +31,7 @@ net.add_pipe('K', '10', '9', 'diameter', 0.05);
 net.delete_pipe('J');
 net.delete_junction('10');
 
+net.save('make_it');
 
 % Solve it
 net.solve();
