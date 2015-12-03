@@ -6,5 +6,4 @@ A program that solves fluid networks using a finite element approach. The specif
   1. Laminar flow
   2. Negligible minor head losses
 
-The GUI is only compatible with [MATLAB](http://www.mathworks.com/products/matlab/). The underlying analysis software is compatible with both [MATLAB](http://www.mathworks.com/products/matlab/) and [Octave-4.0](https://www.gnu.org/software/octave/)!
-
+The underlying analysis software is compatible with both [MATLAB](http://www.mathworks.com/products/matlab/) and [Octave-4.0](https://www.gnu.org/software/octave/). The GUI is compatible with [MATLAB](http://www.mathworks.com/products/matlab/).

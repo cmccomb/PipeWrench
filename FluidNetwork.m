@@ -163,7 +163,7 @@ classdef FluidNetwork < handle
         % network
         function save(this, name)
             % Open the file for writing
-            fileID = fopen([name '.m'],'w');
+            fileID = fopen([name '.m'], 'w');
             
             % Initialize the network and set dynamic viscosity
             fprintf(fileID, 'function net = %s()\n', name);
