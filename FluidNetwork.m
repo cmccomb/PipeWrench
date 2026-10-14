@@ -114,6 +114,14 @@ classdef FluidNetwork < handle
         end
 
         function solve(this)
+            if this.nj < 2 || this.np < 1
+                error('A network needs at least two junctions and one pipe.');
+            end
+            fixed = arrayfun(@(junction) junction.fixed, this.junction_list(1:this.nj));
+            if ~any(fixed)
+                error('At least one junction must have a fixed pressure.');
+            end
+
             % Update values for all pipes
             for i=1:1:this.np
                 this.pipe_list(i).update();
@@ -139,15 +147,17 @@ classdef FluidNetwork < handle
             end
                     
             % Solve the matrix and distribute node and elemental information
-            if rcond(this.global_stiffness) > eps
-                temp = (this.global_stiffness\temp)';
-                for i=1:1:this.nj
-                    this.junction_list(i).set('pressure', temp(i));
-                end
+            conditioning = rcond(this.global_stiffness);
+            if ~isfinite(conditioning) || conditioning <= eps
+                error('The network is singular. Check that each connected component has a fixed pressure.');
+            end
+            temp = (this.global_stiffness\temp)';
+            for i=1:1:this.nj
+                this.junction_list(i).set('pressure', temp(i));
+            end
 
-                for i=1:1:this.np
-                    this.pipe_list(i).compute_flowrate();
-                end
+            for i=1:1:this.np
+                this.pipe_list(i).compute_flowrate();
             end
         end
         
