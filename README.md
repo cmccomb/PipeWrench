@@ -1,9 +1,35 @@
-![Example output](https://github.com/cmccomb/PipeWrench/blob/master/example.png)
+# PipeWrench
 
-# PipeWrench [![Build Status](https://travis-ci.org/cmccomb/PipeWrench.svg)](https://travis-ci.org/cmccomb/PipeWrench)
-A program that solves fluid networks using a finite element approach. The specific formulation assumes
+[![MATLAB tests](https://github.com/cmccomb/PipeWrench/actions/workflows/tests.yml/badge.svg)](https://github.com/cmccomb/PipeWrench/actions/workflows/tests.yml)
 
-  1. Laminar flow
-  2. Negligible minor head losses
+PipeWrench solves pressure and flow in networks of circular pipes using a
+finite element conductance model. The model assumes laminar, Newtonian,
+fully developed flow and neglects minor head losses and elevation effects.
+The source includes a MATLAB GUI, while the FluidNetwork, Junction, and Pipe
+classes can be used without it.
 
-The underlying analysis software is compatible with both [MATLAB](http://www.mathworks.com/products/matlab/) and [Octave-4.0](https://www.gnu.org/software/octave/). The GUI is compatible with [MATLAB](http://www.mathworks.com/products/matlab/).
+    net = FluidNetwork();
+    net.dynamic_viscosity = 1e-3;             % Pa*s
+    net.add_junction('in', 0, 0, 'pressure', 1000); % coordinates in m, pressure in Pa
+    net.add_junction('out', 2, 0, 'pressure', 0);
+    net.add_pipe('pipe', 'in', 'out', 'diameter', 0.1); % diameter in m
+    net.solve();
+    flow = net.get('pipe', 'flow_rate');       % m^3/s
+
+Pipe lengths are calculated from the two-dimensional junction coordinates.
+The Pipe.resistance property has a historical name: it stores hydraulic
+conductance (flow divided by pressure difference), not resistance. Supply
+positive, finite viscosity and diameters and distinct endpoint coordinates.
+Each connected component needs a fixed-pressure junction.
+
+Run test_network from this folder for an analytical single-pipe check,
+equal-pipe series check, and a conservation check on a larger network.
+GitHub Actions runs the same script on pushes and pull requests.
+
+The original source authored by Chris McComb is licensed under BSD 3-Clause;
+see [LICENSE](LICENSE). The optional GUI bundles SplashScreen.m from a
+separate MathWorks File Exchange submission. Its different license and
+attribution are preserved in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+That component's terms limit its use to MathWorks products and services.
+
+![Example output](example.png)

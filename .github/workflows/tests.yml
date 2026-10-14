@@ -1,0 +1,21 @@
+name: MATLAB tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  tests:
+    name: Validate fluid network solver
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up MATLAB
+        uses: matlab-actions/setup-matlab@v3
+      - name: Run tests
+        uses: matlab-actions/run-command@v3
+        with:
+          command: test_network

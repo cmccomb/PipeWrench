@@ -31,13 +31,47 @@ net.add_pipe('K', '10', '9', 'diameter', 0.05);
 net.delete_pipe('J');
 net.delete_junction('10');
 
-net.save('make_it');
-
 % Solve it
 net.solve();
 
 % Check mass conservation
-assert(  net.get('A', 'flow_rate') ...
-       - net.get('G', 'flow_rate') ...
-       - net.get('H', 'flow_rate') ...
-       - net.get('I', 'flow_rate') < 2*eps);
+inflow = net.get('A', 'flow_rate');
+outflow = net.get('G', 'flow_rate') + net.get('H', 'flow_rate') ...
+        + net.get('I', 'flow_rate');
+assert(abs(inflow - outflow) < 1e-9*max(1, abs(inflow)));
+
+%% A single pipe agrees with the Hagen-Poiseuille solution
+net = FluidNetwork();
+net.dynamic_viscosity = 1e-3; % Pa*s
+net.add_junction('in', 0, 0, 'pressure', 1000); % Pa
+net.add_junction('out', 2, 0, 'pressure', 0);
+net.add_pipe('pipe', 'in', 'out', 'diameter', 0.1); % m
+net.solve();
+expected_flow = pi*0.1^4/(128*1e-3*2)*1000; % m^3/s
+assert(abs(net.get('pipe', 'flow_rate') - expected_flow) < 1e-10*expected_flow);
+
+%% Two equal pipes in series split the pressure drop equally
+net = FluidNetwork();
+net.dynamic_viscosity = 1e-3;
+net.add_junction('in', 0, 0, 'pressure', 1000);
+net.add_junction('middle', 1, 0);
+net.add_junction('out', 2, 0, 'pressure', 0);
+net.add_pipe('left', 'in', 'middle', 'diameter', 0.1);
+net.add_pipe('right', 'middle', 'out', 'diameter', 0.1);
+net.solve();
+assert(abs(net.get('middle', 'pressure') - 500) < 1e-9);
+assert(abs(net.get('left', 'flow_rate') - net.get('right', 'flow_rate')) < 1e-9);
+assert(abs(net.get('left', 'flow_rate') - expected_flow) < 1e-9);
+
+%% Invalid physical parameters fail clearly
+net = FluidNetwork();
+net.dynamic_viscosity = 1e-3;
+net.add_junction('in', 0, 0, 'pressure', 1000);
+net.add_junction('out', 1, 0, 'pressure', 0);
+net.add_pipe('bad', 'in', 'out', 'diameter', 0);
+try
+    net.solve();
+    error('Expected an error for zero diameter.');
+catch err
+    assert(contains(err.message, 'diameter'));
+end

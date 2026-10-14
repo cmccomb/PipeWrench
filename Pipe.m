@@ -28,12 +28,26 @@ classdef Pipe < handle
         end
 
         function update(this)
+            if ~isnumeric(this.diameter) || ~isreal(this.diameter) || ...
+                    ~isscalar(this.diameter) || ~isfinite(this.diameter) || this.diameter <= 0
+                error('Pipe diameter must be a positive finite number.');
+            end
+            if ~isnumeric(this.dynamic_viscosity) || ~isreal(this.dynamic_viscosity) || ...
+                    ~isscalar(this.dynamic_viscosity) || ...
+                    ~isfinite(this.dynamic_viscosity) || this.dynamic_viscosity <= 0
+                error('Dynamic viscosity must be a positive finite number.');
+            end
+
             % Update the length
             temp1 = [this.initial.x  this.initial.y];
             temp2 = [this.terminal.x this.terminal.y];
             this.length = sqrt(sum((temp1-temp2).^2));
+            if ~isfinite(this.length) || this.length <= 0
+                error('Pipe endpoints must have distinct finite coordinates.');
+            end
 
-            % Compute the resistance
+            % Historical property name: this is hydraulic conductance,
+            % Q/delta-P, from the Hagen-Poiseuille relation.
             this.resistance = (pi*this.diameter^4)/(128*this.length*this.dynamic_viscosity);
             this.local_stiffness = this.resistance*[1 -1; -1 1];
         end
