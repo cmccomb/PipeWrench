@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it with this metadata."
+type: software
+title: "PipeWrench"
+authors:
+  - family-names: McComb
+    given-names: Chris
+repository-code: "https://github.com/cmccomb/PipeWrench"
